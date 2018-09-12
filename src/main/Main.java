@@ -1,24 +1,26 @@
 package main;
+
 import java.util.Scanner;
 
-public class Main {
+class Main {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        Fraction [][] matrix; //[eq][var]
-        String [] answers;
+        Fraction[][] matrix; //[eq][var]
+        String[] answers;
+        boolean answerExists = true;
         int numEquation;
         int numVar;
 
         System.out.println("Enter number of equations :");
         numEquation = scanner.nextInt();
-        System.out.println("Enter number of varibles :");
+        System.out.println("Enter number of variables :");
         numVar = scanner.nextInt() + 1;
 
         matrix = new Fraction[numEquation][numVar];
-        answers = new String [numVar - 1];
+        answers = new String[numVar - 1];
 
         for (int indEq = 0; indEq < numEquation; indEq++) {
             System.out.println("Equation " + (indEq + 1));
@@ -56,7 +58,7 @@ public class Main {
                         numOfLeading++;
                         foundLeading = true;
                         indEq = -1;
-                    } else if(indEq != numOfLeading - 1) {
+                    } else if (indEq != numOfLeading - 1) {
                         Equations.addEq(
                                 matrix,
                                 indEq,
@@ -72,7 +74,7 @@ public class Main {
         }
 
         int indAns = 0;
-        for (int indEq = 0; indEq < numEquation; indEq++) {
+        for (int indEq = 0; indEq < numEquation && answerExists; indEq++) {
             boolean foundLeading = false;
             for (int indVar = indAns; indVar < numVar - 1; indVar++) {
                 if (!matrix[indEq][indVar].equals(0)) {
@@ -94,23 +96,12 @@ public class Main {
                                 answers[indVar]
                         );
                     }
-                } else {
-
                 }
+            }
+            if (!foundLeading && !matrix[indEq][numVar - 1].equals(0)) {
+                answerExists = false;
             }
         }
-/*
-        for (int indEq = numEquation - 1; indEq >= 0; indEq--) {
-
-            boolean isPossible = false;
-            if (matrix[indEq][numVar - 1].equals(0)) isPossible = true;
-
-            for (int indVar = 0; indVar < numVar - 1; indVar++) {
-                if (!matrix[indEq][indVar].equals(0) && indVar != numVar - 1) {
-                    isPossible = true;
-                }
-            }
-        }*/
 
         System.out.println("Gaussian Matrix :");
         for (int i = 0; i < numEquation; i++) {
@@ -120,10 +111,12 @@ public class Main {
             }
         }
 
-        System.out.println("General Solution :");
-        for (int i = 0; i < answers.length; i++) {
-            System.out.println("X" + (i + 1) + " = " + answers[i]);
-        }
+        if (answerExists) {
+            System.out.println("General Solution :");
+            for (int i = 0; i < answers.length; i++) {
+                System.out.println("X" + (i + 1) + " = " + answers[i]);
+            }
+        } else System.out.println("No solutions exist!");
     }
 
     //ToDO optimize parsing of input

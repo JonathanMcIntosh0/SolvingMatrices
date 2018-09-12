@@ -11,6 +11,7 @@ class Equations {
 
     /**
      * A => A + kB
+     *
      * @param matrix
      * @param indA
      * @param indB
@@ -25,6 +26,7 @@ class Equations {
 
     /**
      * A => kA
+     *
      * @param matrix
      * @param indA
      * @param k
@@ -34,13 +36,5 @@ class Equations {
         for (int i = 0; i < matrix[indA].length; i++) {
             matrix[indA][i].multiply(k);
         }
-    }
-
-    private static boolean isEqPossible(Fraction[] equation) {
-        if (equation[equation.length - 1].equals(0)) return true;
-        for (int i = 0; i < equation.length - 1; i++) {
-            if (!equation[i].equals(0)) return true;
-        }
-        return false;
     }
 }

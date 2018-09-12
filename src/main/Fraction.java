@@ -1,14 +1,14 @@
 package main;
 
-final class Fraction extends Number{
+final class Fraction extends Number {
     private int numerator;
     private int denominator;
 
     public Fraction(int numerator, int denominator) {
-        if(denominator == 0) {
+        if (denominator == 0) {
             throw new IllegalArgumentException("denominator is zero");
         }
-        if(denominator < 0) {
+        if (denominator < 0) {
             numerator *= -1;
             denominator *= -1;
         }
@@ -22,11 +22,11 @@ final class Fraction extends Number{
         this.denominator = 1;
     }
 
-    public int getNumerator() {
+    private int getNumerator() {
         return this.numerator;
     }
 
-    public int getDenominator() {
+    private int getDenominator() {
         return this.denominator;
     }
 
@@ -35,7 +35,7 @@ final class Fraction extends Number{
     }
 
     public double doubleValue() {
-        return ((double) numerator)/((double) denominator);
+        return ((double) numerator) / ((double) denominator);
     }
 
     public float floatValue() {
@@ -62,21 +62,21 @@ final class Fraction extends Number{
         return numerator + "/" + denominator;
     }
 
-    public boolean equals(Fraction frac) {
+    /*public boolean equals(Fraction frac) {
         return this.compareTo(frac) == 0;
-    }
+    }*/
+
     public boolean equals(int num) {
         return this.compareTo(new Fraction(num)) == 0;
     }
 
-    public int compareTo(Fraction frac) {
+    private int compareTo(Fraction frac) {
         long t = this.getNumerator() * frac.getDenominator();
         long f = frac.getNumerator() * this.getDenominator();
         int result = 0;
-        if(t>f) {
+        if (t > f) {
             result = 1;
-        }
-        else if(f>t) {
+        } else if (f > t) {
             result = -1;
         }
         return result;
@@ -88,11 +88,26 @@ final class Fraction extends Number{
         simplify();
     }
 
-    public void substract(Fraction frac) {
-        this.numerator = numerator * frac.denominator - frac.numerator * denominator;
-        this.denominator *= frac.denominator;
-        simplify();
-    }
+    /*
+        public void subtract(Fraction frac) {
+            this.numerator = numerator * frac.denominator - frac.numerator * denominator;
+            this.denominator *= frac.denominator;
+            simplify();
+        }
+
+        public void divide(Fraction frac) {
+            if (frac.numerator == 0) {
+                throw new IllegalArgumentException("cannot divide by zero");
+            }
+            this.numerator *= frac.denominator;
+            this.denominator *= frac.numerator;
+            if (denominator < 0) {
+                numerator *= -1;
+                denominator*= -1;
+            }
+            simplify();
+        }
+    */
 
     public void multiply(Fraction frac) {
         this.numerator *= frac.numerator;
@@ -100,20 +115,7 @@ final class Fraction extends Number{
         simplify();
     }
 
-    public void divide(Fraction frac) {
-        if (frac.numerator == 0) {
-            throw new IllegalArgumentException("cannot divide by zero");
-        }
-        this.numerator *= frac.denominator;
-        this.denominator *= frac.numerator;
-        if (denominator < 0) {
-            numerator *= -1;
-            denominator*= -1;
-        }
-        simplify();
-    }
-
-    public void simplify() {
+    private void simplify() {
         int gcm = Math.abs(gcm(numerator, denominator));
         numerator /= gcm;
         denominator /= gcm;
